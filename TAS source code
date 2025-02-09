@@ -1,6 +1,5 @@
 static void TAS(int sx, int sy)
 {
-    int f = 0;
     int x = sx; int y = sy;
     Stack<Tuple<int, int>> stack = new Stack<Tuple<int, int>>();
     bool[,] vist = new bool[width, Height];
