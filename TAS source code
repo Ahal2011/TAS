@@ -1,0 +1,102 @@
+static void TAS(int sx, int sy)
+{
+    int f = 0;
+    int x = sx; int y = sy;
+    Stack<Tuple<int, int>> stack = new Stack<Tuple<int, int>>();
+    bool[,] vist = new bool[width, Height];
+    for (int i = 0; i < 10000; ++i)
+    {
+        if (maze[x + 1, y] == 4 && maze[x - 1, y] == 4 && maze[x, y + 1] == 4 && maze[x, y - 1] == 4)
+        {
+            break;
+        }
+        else if (maze[x + 1, y] == 0)
+        {
+            x++;
+            stack.Push(Tuple.Create(x, y));
+            maze[x, y] = 2;
+            vist[x, y] = true;
+        }
+        else if (maze[x - 1, y] == 0)
+        {
+            x--;
+            stack.Push(Tuple.Create(x, y));
+            maze[x, y] = 2;
+            vist[x, y] = true;
+        }
+        else if (maze[x, y + 1] == 0)
+        {
+            y++;
+            stack.Push(Tuple.Create(x, y));
+            maze[x, y] = 2;
+            vist[x, y] = true;
+        }
+        else if (maze[x, y - 1] == 0)
+        {
+            y--;
+            stack.Push(Tuple.Create(x, y));
+            maze[x, y] = 2;
+            vist[x, y] = true;
+        }
+        else if (maze[x + 1, y] == 1 || maze[x, y + 1] == 1 || maze[x, y - 1] == 1 || maze[x - 1, y] == 1)
+        {
+            if (stack.Count > 0)
+            {
+                var cur = stack.Pop();
+                x = cur.Item1;
+                y = cur.Item2;
+            }
+        }
+        else if (maze[x + 1, y] == 1)
+        {
+            vist[x + 1, y] = false;
+        }
+        else if (maze[x - 1, y] == 1)
+        {
+            vist[x - 1, y] = false;
+        }
+        else if (maze[x, y + 1] == 1)
+        {
+            vist[x, y + 1] = false;
+        }
+        else if (maze[x, y - 1] == 1)
+        {
+            vist[x, y - 1] = false;
+        }
+    }
+    PrintInfo();
+}
+static void PrintInfo()
+{
+    for (int y = 0; y < Height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            if (maze[x, y] == 1)
+            {
+                Console.Write("|");
+            }
+            else if (maze[x, y] == 3)
+            {
+                Console.Write("S");
+            }
+            else if (maze[x, y] == 4)
+            {
+                Console.Write("E");
+            }
+            else if (maze[x, y] == 0)
+            {
+                Console.Write("0");
+            }
+            else if (maze[x, y] == 2)
+            {
+                Console.Write("*");
+            }
+            else if (maze[x, y] == 6)
+            {
+                Console.Write("B");
+            }
+        }
+        Console.WriteLine();
+    }
+}
